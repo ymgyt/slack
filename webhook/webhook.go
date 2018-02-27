@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
+	"net/http/httputil"
 	"time"
 )
 
@@ -15,10 +17,8 @@ const (
 )
 
 var (
-	ErrNilConfig    = errors.New("Config must not nil")
 	ErrEmptyURL     = errors.New("URL must not empty")
 	ErrEmptyChannel = errors.New("Channel must not empty")
-	defaultTimeout  = 3 * time.Second
 )
 
 type Config struct {
@@ -32,6 +32,8 @@ type Config struct {
 	IconEmoji string
 	// Timeout used by http.Client
 	Timeout time.Duration
+	// flag whether dump response
+	Dump bool
 }
 
 func (cfg *Config) SetDefualts() {
@@ -40,9 +42,6 @@ func (cfg *Config) SetDefualts() {
 	}
 	if cfg.IconEmoji == "" {
 		cfg.IconEmoji = defaultIconEmoji
-	}
-	if cfg.Timeout == 0 {
-		cfg.Timeout = defaultTimeout
 	}
 }
 
@@ -55,16 +54,13 @@ type Client struct {
 
 // New return Client by provided configuration.
 // if it is not given, use default one
-func New(c *Config) (*Client, error) {
-	if c == nil {
-		return nil, ErrNilConfig
-	}
+func New(c Config) (*Client, error) {
 	c.SetDefualts()
-	if err := checkConfig(c); err != nil {
+	if err := checkConfig(&c); err != nil {
 		return nil, err
 	}
 	return &Client{
-		cfg: *c,
+		cfg: c,
 		client: &http.Client{
 			Timeout: c.Timeout,
 		},
@@ -101,13 +97,39 @@ func applyChecks(c *Config, fns ...func(*Config) error) error {
 	return nil
 }
 
+// Field which is used in Attachment is displayed in message table.
+type Field struct {
+	// Required Field Title.
+	Title string `json:"title"`
+	// Text value of the field.
+	Value string `json:"value"`
+	// Optional flag indicating whether the `value` is short enough to be displayed
+	// side-by-side with other values.
+	Short bool `json:"short"`
+}
+
+// Attachment contains message formatting info.
+type Attachment struct {
+	// Required text summary of the attachment that is shown by clients that understand attachments
+	// but choose not to show them.
+	Fallback string `json:"fallback"`
+	// Optional text that should appear within the attachment.
+	Text string `json:"text"`
+	// Optional text that should appear above the formatted data.
+	Pretext string `json:"pretext"`
+	// Can either be one of 'good', 'warning', 'danger', or any hex color code.
+	Color  string   `json:"color"`
+	Fields []*Field `json:"fields"`
+}
+
 // Payload represent POST request body.
 // it is intended to encode json.
 type Payload struct {
-	Text      string `json:"text"`
-	Channel   string `json:"channel"`
-	Username  string `json:"username,omitempty"`
-	IconEmoji string `json:"icon_emoji,omitempty"`
+	Text        string        `json:"text"`
+	Channel     string        `json:"channel"`
+	Username    string        `json:"username,omitempty"`
+	IconEmoji   string        `json:"icon_emoji,omitempty"`
+	Attachments []*Attachment `json:"attachments,omitempty"`
 }
 
 func (c *Client) setHeaders(req *http.Request) *http.Request {
@@ -127,6 +149,20 @@ func (c *Client) buildRequest(p *Payload) (*http.Request, error) {
 	return c.setHeaders(req), nil
 }
 
+func (c *Client) handleResponse(res *http.Response) error {
+	if c.cfg.Dump {
+		dump, err := httputil.DumpResponse(res, true)
+		if err != nil {
+			return err
+		}
+		fmt.Println(string(dump))
+	}
+	if res.StatusCode >= 400 {
+		return fmt.Errorf("failed to send messages: %s", res.Status)
+	}
+	return nil
+}
+
 func (c *Client) SendPayload(p *Payload) (err error) {
 	req, err := c.buildRequest(p)
 	if err != nil {
@@ -142,7 +178,7 @@ func (c *Client) SendPayload(p *Payload) (err error) {
 			err = clsErr
 		}
 	}()
-	return nil
+	return c.handleResponse(res)
 }
 
 func (c *Client) Send(msg string) error {
