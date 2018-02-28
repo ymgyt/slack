@@ -15,7 +15,7 @@ Usage
 
    import "github.com/ymgyt/slack/webhook"
    
-   func Example() {
+   func Notify() {
    	wh, err := webhook.New(webhook.Config{
    		URL:       "https://hooks.slack.com/services/XXXXXXXXXXXX/XXXXXXXXXXXXXXXXXXX",
    		Channel:   "general",
@@ -69,8 +69,7 @@ Usage
    		},
    	})
    	if err != nil {
-    {
    		panic(err)
    	}
-  }
+   }
    
