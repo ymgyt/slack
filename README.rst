@@ -1,8 +1,11 @@
 .. image:: https://godoc.org/github.com/ymgyt/slack/webhook?status.svg
+   :align: left
+
 .. image:: https://coveralls.io/repos/github/ymgyt/slack/badge.svg?branch=develop
-:target: https://coveralls.io/github/ymgyt/slack?branch=develop
+   :align: left
 
 .. image:: https://goreportcard.com/badge/github.com/ymgyt/slack
+   :align: left
 
 =====
 slack
