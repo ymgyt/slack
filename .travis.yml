@@ -2,10 +2,13 @@ language: go
 go:
   - "1.9"
   - "1.10"
+before_install:
+  - go get github.com/mattn/goveralls
 install:
   - make dependencies
 script:
   - make test
+  - $GOPATH/bin/goveralls -service=travis-ci
 notifications:
   slack:
     rooms:
