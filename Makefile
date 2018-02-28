@@ -3,7 +3,13 @@ PACKAGES = $(shell \
 	-o -name '??*' -type d -print)
 
 
+.PHONY: test
 test:
 	go test  ${PACKAGES}
 
-.PHONY: test
+.PHONY: dependencies
+dependencies:
+	dep version || go get -u github.com/golang/dep/cmd/dep
+	dep ensure
+
+

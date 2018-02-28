@@ -1,0 +1,15 @@
+language: go
+go:
+  - 1.9
+  - 1.10
+install:
+  - make dependencies
+script:
+  - make test
+notifications:
+  slack:
+    rooms:
+      secure: UIwpOfldrZn8nySv2NxvAMATEW7inU1u/YLvB1KbIizfQ6aH32yMedbHWUcXrNxo3T5OPFaVEv+8ngxipnJFZdqRdZ0dBpagXgQvAhoOyo6MfL9s6JhpuOeeCdroBHw7Fl17fPhZBrdq3haoDS8zjQT4NYr7oEi3x4pphn6ZRx5peN3kDOSa1S5PYynlA/uBqHrkKH5Em0fwrk8Y7d1fcb56+ZXN+A6n71kXxW6Km8+zGy8ssBljFH1tBVfd1KxS9tGl91IAMDV0pFrrq2O5XE5Z51EWxjycweD8gl5KyVIx0FQqvis2zcSF/dVn0SF2abfXptcx/slKOWEAO0bT5EBjYPR4pKbZ73v8E96dFWru8PpC4Gh/5QYgDJ0qVoO6RHuPUbuzMQi6JwTYf28cfJY83u2z4LfkB0j73FmF7xj3McKi35Oxapy1diLKyoL2dryxfDIxR6Tb6vE2uLV1i3KQXL/QPtla0+SeMA+sZ7dH7XpeWWzcW1I3KQaIfmYFjVFToeqpDT/pcEOGlYeTjRYoNE3lagwPM/V5jgZT3C7n1m7igll75bRh3OSfoamt8/aq4LyDg7EWm3P2msL33PUaqM09xlgcEylddWjDuBE2h3P07hkG9w1nChGYMCSHXj0eKm576uyr1LW13NG5rKBkVoEWdghbftbiAs2sF0I=
+    on_success: always
+    on_failure: always
+
