@@ -2,14 +2,18 @@ language: go
 go:
   - "1.9"
   - "1.10"
+before_install:
+  - go get github.com/mattn/goveralls
 install:
   - make dependencies
 script:
   - make test
+  - $GOPATH/bin/goveralls -service=travis-ci
 notifications:
+  email: false
   slack:
     rooms:
-      secure: UIwpOfldrZn8nySv2NxvAMATEW7inU1u/YLvB1KbIizfQ6aH32yMedbHWUcXrNxo3T5OPFaVEv+8ngxipnJFZdqRdZ0dBpagXgQvAhoOyo6MfL9s6JhpuOeeCdroBHw7Fl17fPhZBrdq3haoDS8zjQT4NYr7oEi3x4pphn6ZRx5peN3kDOSa1S5PYynlA/uBqHrkKH5Em0fwrk8Y7d1fcb56+ZXN+A6n71kXxW6Km8+zGy8ssBljFH1tBVfd1KxS9tGl91IAMDV0pFrrq2O5XE5Z51EWxjycweD8gl5KyVIx0FQqvis2zcSF/dVn0SF2abfXptcx/slKOWEAO0bT5EBjYPR4pKbZ73v8E96dFWru8PpC4Gh/5QYgDJ0qVoO6RHuPUbuzMQi6JwTYf28cfJY83u2z4LfkB0j73FmF7xj3McKi35Oxapy1diLKyoL2dryxfDIxR6Tb6vE2uLV1i3KQXL/QPtla0+SeMA+sZ7dH7XpeWWzcW1I3KQaIfmYFjVFToeqpDT/pcEOGlYeTjRYoNE3lagwPM/V5jgZT3C7n1m7igll75bRh3OSfoamt8/aq4LyDg7EWm3P2msL33PUaqM09xlgcEylddWjDuBE2h3P07hkG9w1nChGYMCSHXj0eKm576uyr1LW13NG5rKBkVoEWdghbftbiAs2sF0I=
+      - secure: "EOl9SPQrMIeDMagtOyzd+iQkBUQ5EQ0uhnzTQvYoxDP6XFDwWoQI/2Ge8HnxhpaveKXRTqtG23n+FtD3pf6h6dbs38VFZea0gHM/76zzDHB4hXcRudehRq7FDb2QN9L2tgcOdW0SFuTTCNZmtmfNrGGFxbzDjciYLMEUcCQLoH9bZWNNJQkVLIWEGEcjTxwuAECxKNw9iZyguAFZRDUJkUpUVsXJMK0eIiLqL1IDCEYSz1ORRzpWiXzcJo7d4QzugMtJYJQx0P2acavFOx3ZR4yH7F5sjHj9wQAlhdjAyGJN2VDLYSKGsDz0yTju3oY0k+J/cbE1Hgksy0eJO0isHAGEUeBxrunV69f5hGbToI7/VLasWPXs0ROvoDzqBzcd0s41vDtDY2meH+fdQb3z5IIh9WTxuX3kyJr6Gxn2hFM8SdjoVuMBYxsYqZ2i5XPvlFVhrl+SBzAXt1v7PBviKl2ceF38b5aeqVss4t7Slja+UOVac51BwJxoX/gfHvvH3sLbNHhtG9iya3PAuLQS7RIlXddybujdFK4xyWD8+K2l/KeCtcZrk0gjGqYw0r/CJNxzy23Sbn+Fk0guUKlzFHJaWs+wz3/esSg9d5QIYTZoyvb8QBfV36nJOeI7aLAOrXroK/TZyrkxF/rFNa7WlGaCiTNDQjyvYU4M5Vans/k="
     on_success: always
     on_failure: always
 

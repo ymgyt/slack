@@ -1,3 +1,17 @@
+|godoc| |travis| |coveralls| |goreport|
+
+.. |godoc| image:: https://godoc.org/github.com/ymgyt/slack/webhook?status.svg
+    :target: https://godoc.org/github.com/ymgyt/slack/webhook
+
+.. |travis| image:: https://travis-ci.org/ymgyt/slack.svg?branch=master
+    :target: https://travis-ci.org/ymgyt/slack
+
+.. |coveralls| image:: https://coveralls.io/repos/github/ymgyt/slack/badge.svg?branch=develop
+    :target: https://coveralls.io/github/ymgyt/slack?branch=master
+
+.. |goreport| image:: https://goreportcard.com/badge/github.com/ymgyt/slack
+    :target: https://goreportcard.com/report/github.com/ymgyt/slack
+
 =====
 slack
 =====
