@@ -1,11 +1,12 @@
-.. image:: https://godoc.org/github.com/ymgyt/slack/webhook?status.svg
-   :align: left
+|godoc| |travis| |coveralls| |goreport|
 
-.. image:: https://coveralls.io/repos/github/ymgyt/slack/badge.svg?branch=develop
-   :align: left
+.. |godoc| image:: https://godoc.org/github.com/ymgyt/slack/webhook?status.svg
 
-.. image:: https://goreportcard.com/badge/github.com/ymgyt/slack
-   :align: left
+.. |travis| image:: https://travis-ci.org/ymgyt/slack.svg?branch=master
+
+.. |coveralls| image:: https://coveralls.io/repos/github/ymgyt/slack/badge.svg?branch=develop
+
+.. |goreport| image:: https://goreportcard.com/badge/github.com/ymgyt/slack
 
 =====
 slack
