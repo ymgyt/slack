@@ -132,6 +132,18 @@ type Payload struct {
 	Attachments []*Attachment `json:"attachments,omitempty"`
 }
 
+func (c *Client) setDefault(cfg Config, p *Payload) {
+	if p.Channel == "" {
+		p.Channel = cfg.Channel
+	}
+	if p.Username == "" {
+		p.Username = cfg.Username
+	}
+	if p.IconEmoji == "" {
+		p.IconEmoji = cfg.IconEmoji
+	}
+}
+
 func (c *Client) setHeaders(req *http.Request) *http.Request {
 	req.Header.Set("Content-Type", contentTypeJSON)
 	return req
@@ -164,6 +176,7 @@ func (c *Client) handleResponse(res *http.Response) error {
 }
 
 func (c *Client) SendPayload(p *Payload) (err error) {
+	c.setDefault(c.cfg, p)
 	req, err := c.buildRequest(p)
 	if err != nil {
 		return err
@@ -182,11 +195,6 @@ func (c *Client) SendPayload(p *Payload) (err error) {
 }
 
 func (c *Client) Send(msg string) error {
-	p := &Payload{
-		Text:      msg,
-		Channel:   c.cfg.Channel,
-		Username:  c.cfg.Username,
-		IconEmoji: c.cfg.IconEmoji,
-	}
+	p := &Payload{Text: msg}
 	return c.SendPayload(p)
 }
