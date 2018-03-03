@@ -132,7 +132,7 @@ type Payload struct {
 	Attachments []*Attachment `json:"attachments,omitempty"`
 }
 
-func (c *Client) setDefault(cfg *Config, p *Payload) {
+func (c *Client) setDefault(cfg Config, p *Payload) {
 	if p.Channel == "" {
 		p.Channel = cfg.Channel
 	}
